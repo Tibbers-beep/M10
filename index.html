@@ -2,9 +2,14 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="autor" content="barner">
+    <meta name="Autoren" content="Baron, Trejtnar">
+    <meta 
+      name="description"
+      content="Kategorien-Spiel – ein interaktives Kombinationsspiel, empfohlen ab dem 25.07.2025. Finde Gruppen von Begriffen, verbessere deinen Highscore und knobele dich durch verschiedene Schwierigkeitsgrade. Optimal spielbar ab 480px Bildschirmbreite."
+      />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategorien-Spiel</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png"/>
 
     <!-- Grundlegendes Design-->
     <style>
@@ -16,14 +21,21 @@
             padding: 5%;
         }
         select {
-            font-size: 1em;
-            padding: 1%;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            padding: 0.8em 1.2em;
+            width: 100%;
+            max-width: 200px;               /* feste Obergrenze */
+            min-width: 160px;               /* verhindert zu kleine Darstellung */
             background-color: #444;
-            color: white; 
-            border: 2px solid #898c90; 
-            border-radius: 5px; /* Abgerundete Ecken */
+            color: white;
+            border: 2px solid #898c90;
+            border-radius: 0.5em;
             cursor: pointer;
-        }
+            text-align: center;
+            margin: 1em auto;               /* zentriert das Element */
+            display: block;
+            box-sizing: border-box;
+        }       
 
         select:hover {
             background-color: #666; /* Dunklere Farbe beim Hovern */
@@ -65,17 +77,13 @@
             align-items: center;/* Zentriert den Text */
         }
 
-        .correct-group .tile.correct {
-            background-color: var(--group-color);
-            border: 2px solid white; /* Umrandung bleibt */
-        }
-
         .selected { 
             border: 2px solid #29f8f5; 
         }
 
 
         .wrong { border: 2px solid red; animation: shake 0.3s; }
+        
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -84,42 +92,26 @@
         }
         
         .correct-group {
-            display: grid;
-            grid-template-rows: auto 1fr; /* Erste Zeile für die Überschrift, zweite für die Kacheln */
-            grid-template-columns: repeat(auto-fit, minmax(10%, 1fr)); /* Dynamische Spalten */
-            gap: 2%; /* Abstand zwischen den Kategorien */
-            justify-content: center; /* Zentriert die Gruppen */
-            max-width: 90%; /* Begrenzung auf Bildschirmbreite */
-            margin: 3% auto; 
-            padding: 2%; 
-            border: 2px solid #ccc; 
-            border-radius: 2%; /* Abgerundete Ecken für dezenteren Look */
-            background-color: var(--group-color); /* Dynamische Farbzuweisung */ 
-        }
-        
-        .correct-group h3 { 
-            display: grid;
-            text-align: center;
-            margin-bottom: 5%; /*erhöht den Abstand zur Begriffsleiste gefundener Kategorien*/ 
-            margin-top: 10%;
-            color: whitesmoke; 
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 90%;
+          margin: 1.5rem auto;
+          padding: 1rem;
+          background-color: var(--group-color);
+          border: 2px solid #ccc;
+          border-radius: 8px;
+          box-sizing: border-box;
         }
 
-        /* Behält die korrekte Darstellung der Kacheln bei */
-        .correct-group .correct-tiles {
-            display: grid;
-            justify-content: center; 
-            gap: 10%; /* Sorgt für Abstand zwischen den korrekten Kacheln */
+        .correct-group h3 {
+          width: 100%;
+          margin-bottom: 1rem;
+          font-size: calc(1vw + 10px);
+          text-align: center;
+          color: whitesmoke;
         }
 
-
-        
-        .tile.correct { 
-            display: flex;
-            background-color: var(--group-color); 
-            border: 2px solid white; /*Erhält die Umrandung*/
-            padding: 2%;
-        }
 
         .footer {
             text-align: center;
@@ -130,19 +122,26 @@
 
         
         .game-button {
-            padding: 1% 2%;
-            font-size: 1em;
-            background-color: #444; /* Standardfarbe */
+            padding: clamp(0.6em, 2vh, 1em) clamp(1em, 3vw, 2em); /* responsive Innenabstände */
+            font-size: clamp(1rem, 2.5vw, 1.5rem);               /* passt sich Bildschirmgröße an */
+            min-width: 140px;                                    /* Mindestgröße */
+            max-width: 90%;                                      /* Begrenzung auf Mobilgeräte */
+            background-color: #444;
             color: white;
-            border: 2px solid #898c90; 
-            border-radius: 5px; /* Abgerundete Ecken */
+            border: 2px solid #898c90;
+            border-radius: 0.5em;
             cursor: pointer;
-            transition: background-color 0.3s ease; /* Sanfte Farbänderung */
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 2em auto; /* zentriert den Button im Home-Screen */
+            display: block;
         }
 
         .game-button:hover {
-            background-color: #666; /* Farbe beim Hovern */
+            background-color: #666;
+            transform: scale(1.05); /* dezente Vergrößerung beim Hovern */
         }
+
 
         .end-screen { 
             display: flex; 
@@ -160,19 +159,50 @@
             border: none;
             cursor: pointer; 
         }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;           /* erlaubt Umbruch bei kleiner Fensterbreite */
+            gap: 1em;                  /* Abstand zwischen Buttons */
+            justify-content: center;   /* zentriert horizontal */
+            margin-top: 2em;
+        }
+
+        .button-group button {
+            flex: 1 1 200px;           /* Mindestbreite + flexible Skalierung */
+            max-width: 300px;          /* Begrenzung auf maximal 300px Breite */
+        }
+
+        .button-group button:hover {
+            background-color: #888;
+            transform: scale(1.05);           /* sanftes Vergrößern beim Hovern */
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
         
         .end-screen button:hover { 
             background-color: #666; 
         }
 
-        .restart-button {
-            padding: 2%;
-            margin-top: 2%;
+        
+        .back-button,
+        .end-screen button {
+            padding: clamp(0.6em, 2vh, 1em) clamp(1em, 3vw, 2em);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            min-width: 140px;
+            max-width: 90%;
+            border-radius: 0.5em;
             background-color: #444;
             color: white;
             border: none;
             cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            white-space: nowrap;               /* Verhindert Zeilenumbruch */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
 
         .end-message-style {
             display: flex;
@@ -182,364 +212,813 @@
             margin-top: 5%;
         }
 
+        .banner {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: bold;
+            color: #29f8f5;
+            text-align: center;
+            margin-bottom: 1em;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3);
+        }
+
+       #spielbeschreibung p {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        line-height: 1.6;
+        }
+
+        #spielbeschreibung h2 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+        } 
+
+        .start-row {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.6em;                  /* Abstand zwischen den Elementen */
+          flex-wrap: wrap;           /* Umbruch bei kleineren Bildschirmen */
+          width: fit-content;
+          margin: 1.5em auto;
+        }
+
+        /* Gemeinsames Styling für gleich hohe Elemente */
+        .start-row label,
+        .start-row select,
+        .start-row .game-button {
+          font-size: clamp(1rem, 2.5vw, 1.2rem);
+          padding: 0.5em 0.6em;
+          height: 2.6em;
+          width: 160px;               
+          min-width: 80px;
+          max-width: none;           
+          flex: 0 0 auto;            /* verhindert Strecken */
+          box-sizing: border-box;
+          background-color: #444;
+          color: white;
+          border: 2px solid #898c90;
+          border-radius: 0.5em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Label soll optisch kein Button sein */
+        .start-row label {
+          background-color: transparent;
+          border: none;
+          cursor: default;
+        /* clamp(min, preferred, max) – mit korrekten Einheiten und calc() */
+          font-size: clamp(1rem,2rem);
+          white-space: nowrap;   /* verhindert Zeilenumbruch */
+          flex-shrink: 0;        /* Label darf nicht schrumpfen */
+        }
+
+
+        .start-row select {
+          width: auto;
+          margin: 0;
+          max-width: none;
+          display: flex;
+        }
+
+        /* Fragezeichen-Icon */
+        #help-icon,
+        #back-icon {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 70px;
+          height: 70px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;      /* Kreis-Form */
+  
+        /* Größe und Stil des Fragezeichens */
+          font-family: Arial, sans-serif;
+          font-size: 1.8rem;
+        /* Wunschfarbe für Hintergrund und Icon */
+         background-color: #2c2c2c ; 
+          color: #29f8f5;            /* Icon-Farbe (Fragezeichen) */
+          line-height: 1;           
+        /* Schatten und Klick-Effekt */
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Positionierung differenzieren */
+        #help-icon { right: 10px; }
+        #back-icon { left: 10px; }
+
+        #help-icon:hover,
+        #back-icon:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        @media (max-width: 480px) {
+        #help-icon,
+        #back-icon {
+          width: 32px;
+          height: 32px;
+          font-size: 1.2rem;
+          top: 8px;
+        }
+        /* Abstand fürs Grid anpassen */
+        .grid {
+          margin-top: 48px;  /* 32px Icon + 16px Abstand */
+        }
+        }       
+
+        /* Regel-Popup Overlay */
+        .popup {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: clamp(1em, 4vw, 2em); 
+          z-index: 9999;
+          box-sizing: border-box;
+        }
+
+        .popup-content {
+          background: #2c2c2c;
+          color: white;
+          padding: 1.5em;
+          border-radius: 8px;
+          border: 2px solid #29f8f5;
+          width: 80%;
+          height: 55%;
+          font-size: calc(1vw + 10px);
+          text-align: center;
+          box-shadow: 0 0 12px rgba(0,0,0,0.5);
+          box-sizing: border-box;
+        }
+
+        #close-popup {
+          width: clamp(120px, 20vw, 200px); /* Dynamische Breite */
+          height: clamp(40px, 6vh, 60px);   /* Dynamische Höhe */
+          font-size: clamp(0.9rem, 2vw, 1.1rem); 
+          padding: 0.5em 1em;               /* Zusätzlicher Innenabstand */
+
+          background-color: #444;
+          color: #fff;
+          border: 2px solid #898c90;
+          border-radius: 0.5em;
+          cursor: pointer;
+        }
+
+        #close-popup:hover {
+          background-color: #666;
+          transform: scale(1.03);
+        }
+
+        #close-popup:focus {
+          outline: 3px solid #29f8f5;
+          outline-offset: 2px;
+        }
+
+
+        .hidden {
+          display: none;
+        }
+        /* Popup-Grundzustand */
+        .popup {
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+        }
+
+        /* Wenn eingeblendet */
+        .popup.show {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* Alte Breitenbeschränkungen aufheben */
+        .correct-tiles .tile.correct {
+          width: auto !important;
+          min-width: 0 !important;
+        }
+
+        .correct-tiles {
+          display: grid !important;                      
+          grid-template-columns: repeat(4, minmax(80px,1fr));
+          grid-auto-rows: minmax(80px, 1fr);
+          gap: 5% 2%;
+          width: 100%;                                     /* volle Breite des .correct-group */
+          margin: 0;                                       /* kein Außenabstand */
+          padding: 0;                                      /* kein Innen­abstand */
+          box-sizing: border-box;
+        }
+
+        .correct-tiles .tile.correct {
+          padding: 8%;
+          background-color: var(--group-color);
+          border: 2px solid white;
+          border-radius: 4px;
+          color: white;
+          font-size: calc(1vw + 10px);
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          overflow-wrap: break-word;
+          word-break: break-word;
+          hyphens: auto;
+        }
+
+
+        /* 1) Container relativ anlegen */
+        #home-screen,
+        #game-screen {
+          position: relative;     /* Icons bleiben darin verankert */
+          padding-top: 90px;      /* 70px Icon-Höhe + 10px Abstand oben + 10px Gap */
+          box-sizing: border-box; /* Padding ins Gesamtmaß einrechnen */
+          font-size: calc(1vw + 10px);
+        }
+
+        /* 2) Responsive Anpassung für kleine Bildschirme */
+        @media (max-width: 480px) {
+        #home-screen,
+        #game-screen {
+          padding-top: 56px;    /* 32px Icon-Höhe + 8px Abstand oben + 16px Gap */
+        }
+        }
+
+        /* Pop-Effekt für die Überschrift */
+        @keyframes pop {
+          0%   { transform: scale(0); opacity: 0; }
+          60%  { transform: scale(1.2); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Konfetti-Fallanimation */
+        @keyframes confetti {
+          to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* Stil der einzelnen Konfetti-Teilchen */
+        .confetti {
+          position: fixed;
+          top: -10px;
+          width: 6px;
+          height: 10px;
+          opacity: 0.8;
+          pointer-events: none;
+          animation: confetti 2.5s linear forwards;
+        }
+
+        /* ——————— Pop-Effekt aktivieren, wenn Popup sichtbar ——————— */
+        #end-popup.show .banner {
+          animation: pop 1s ease-out forwards;
+        }
+
+        /* 1) Willkommen-Text */
+        #home-screen > p {
+          font-size: calc(1vw + 10px);
+        }
+
+        /* 2) Highscore-Überschrift*/
+        #highscore-list > h3 {
+          font-size: clamp(1.2rem, 3vw, 1.6rem);
+          margin-bottom: 0.5em;
+        }
+
+        /* Highscore-Container zentrieren */
+        #highscore-list {
+          max-width: 500px;
+          margin: 2em auto;
+          text-align: center;
+        }
+
+        /* Tabelle stylisieren */
+        #highscore-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 1em;
+        }
+
+        #highscore-table th,
+        #highscore-table td {
+          border: 1px solid #555;
+          padding: 0.5em;
+          text-align: left;
+        }
+
+        #highscore-table th {
+          background-color: #2c2c2c;
+          color: #29f8f5;
+        }
+
+        #highscore-table tbody tr:nth-child(even) {
+          background-color: rgba(255,255,255,0.05);
+        }
+
+
     </style>
-
 </head>
-
-
 <body>
     <header>
-    <!--ToDo: Timerfunktion mit Cookies zum Speichern von Highscores -->
-    <!--ToDo: Spielbeschreibung einfügen, aria-label screenreader-->
-    <!--ToDo: Ton wenn falsch und wenn richtig -->
-    <!--ToDo: Zurück-Button bisher nutzlos -->
-    <!--ToDo: You Did IT Oberhalb der gefundenen Kategorien anzeigen lassen -->
-    <!--ToDo: Spiel von Link aus im Internet spielbar -->
-        <!--ToDo: Überschrift in gefundene Kategorie wird überschrieben -->
+<!-- HOME-SCREEN  -->
+ <div id="home-screen">
+  <h1>Kategorie-Spiel</h1>
+  <hr style="width: 40%;"> <!--Trennlinie-->
+  <p>Willkommen bei unserem kleinen Spiel!</p>
+  <br>
+  <p>Suche jeweils 4 Begriffe zu einer Oberkategorie</p>
 
-    
-        <h1>Kategorie-Spiel</h1>
-        <hr style="width: 40%;"> <!--das ist eine hübsche Trennlinie-->
-        <p>Willkommen bei unserem kleinen Spiel!</p>
-        <br>
-        <p>Suche jeweils 4 Begriffe zu einer Oberkategorie</p>
 
-         <!-- Auswahl der Schwierigkeit -->
-        <label for="difficulty" >Schwierigkeitsgrad:</label>
-        <select id="difficulty">
-            <option value="leicht">Leicht</option>
-            <option value="mittel">Mittel</option>
-            <option value="schwer">Schwer</option>
-            <option value="experte">Experte</option>
-        </select>
-        <button onclick="startGame()" class="game-button">Spiel starten</button>
-        <section id="spielbeschreibung" aria-label="Spielbeschreibung" style="margin-top: 4em; width:80%; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.8;">
-    <h2>Spielregeln</h2> 
+<!-- Schwierigkeits-Auswahl -->
+  <div class="start-row">
+    <label for="difficulty">Schwierigkeitsgrad:</label>
+    <select id="difficulty">
+      <option value="leicht">Leicht</option>
+      <option value="mittel">Mittel</option>
+      <option value="schwer">Schwer</option>
+      <option value="experte">Experte</option>
+    </select>
+    <button onclick="startGame()" class="game-button">Spiel starten</button>
+  </div>
+
+
+<!-- Spielbeschreibung -->
+  <section id="spielbeschreibung" aria-label="Spielbeschreibung" style="margin-top: 4em; width:80%; max-width: 600px; margin: 0 auto; line-height: 1.8;">
+    <h2>Spielregeln</h2>
     <p>
-        Finde vier Begriffe, die logisch zu einer gemeinsamen Oberkategorie gehören.
-        Du kannst immer nur vier Kacheln gleichzeitig auswählen.
-        Wenn deine Auswahl zusammenpasst, wird die Gruppe gespeichert und farbig markiert.
-        Liegst du daneben? Kein Problem – versuch es einfach erneut.
+      Finde vier Begriffe, die logisch zu einer gemeinsamen Oberkategorie gehören.
+      Du kannst immer nur vier Kacheln gleichzeitig auswählen.
+      Wenn deine Auswahl zusammenpasst, wird die Gruppe gespeichert und farbig markiert.
+      Liegst du daneben? Kein Problem – versuch es einfach erneut.
     </p>
     <p>
-        <strong>Ziel:</strong> Entdecke alle vier Kategorien mit möglichst wenigen Versuchen.<br>
-        <strong>Hinweis:</strong> Die Schwierigkeit kannst du selbst bestimmen – von „Leicht“ bis „Experte“. Jeder Durchgang ist anders.
+      <strong>Ziel:</strong> Entdecke alle vier Kategorien mit möglichst wenigen Versuchen.<br>
+      <strong>Hinweis:</strong> Die Schwierigkeit kannst du selbst bestimmen – von „Leicht“ bis „Experte“. Jeder Durchgang ist anders.
     </p>
     <p>Viel Spaß beim Kombinieren, Raten und Knobeln!</p>
-</section>
-    </header>
-    
-    
-    <article>
-        <section>
-            <p>Versuche: <span id="attempts">0</span></p>
-            
-            <p id="timer">Zeit: 0s</p>
-            <p id="highscore">Bestzeit: -</p>
+  </section>
 
-            <div id="higscore-list" style="margin-top: 1em">
-                <h3>Highscore:</h3>
-                <ul id="topScores" style="list-style: none; padding-left: 0;">
-                    <li>-</li>
-                    <li>-</li>
-                    <li>-</li>
-                    <li>-</li>
-                    <li>-</li>
-                </ul>
-            </div> 
+<!-- Highscore-Bereich -->
+  <div id="highscore-list" style="margin-top: 1em">
+    <h3>Highscore:</h3>
+    <table id="highscore-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Zeit</th>
+      <th>Schwierigkeit</th>
+    </tr>
+  </thead>
+    <tbody id="topScores">
+  <!-- Hier wird der Highscore per JS eingefügt -->
+    </tbody>
+    </table>
+  </div>
+</div> 
 
-            <div class="grid" id="grid"></div>
-            <div id="correct-groups"></div>
 
-            <div class="footer">
-                <p>Viel Erfolg!</p>
-            </div>
 
-        </section>
+<!-- GAME-SCREEN (wird erst beim Spielstart sichtbar) -->
+<div id="game-screen" style="display: none; position: relative;">
+  <!-- Hilfe-Icon rechts oben -->
+  <div id="help-icon" title="Spielregeln anzeigen">?</div>
+  <!-- Zurück-Icon links oben -->
+  <div id="back-icon" title="Zurück zum Start">&#x2190;</div>
+
+  <p>Versuche: <span id="attempts">0</span></p>
+  <p id="timer">Zeit: 0s</p>
+
+  <!-- Spielfeld -->
+  <div class="grid" id="grid"></div>
+
+  <!-- Anzeige für korrekt gefundene Gruppen -->
+  <div id="correct-groups"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Viel Erfolg!</p>
+  </div>
+</div>
+
+<!-- SPIELREGELN-POPUP -->
+<div id="rules-popup" class="popup hidden">
+  <div class="popup-content">
+    <h3>Spielregeln</h3>
+    <p>Finde 4 Gruppen aus je 4 zusammengehörigen Begriffen.</p>
+        <strong>Ziel:</strong> Entdecke alle vier Kategorien mit möglichst wenigen Versuchen.<br>
+    <p>Die Zeit läuft – je schneller, desto besser!</p>
+    <p>Viel Glück!</p>
+    <button id="close-popup">Verstanden</button>
+  </div>
+</div>
         
+<!-- END-POPUP (You did it! + Namensabfrage) -->
+<div id="end-popup" class="popup hidden">
+  <div class="popup-content">
+    <div class="end-screen">
+      <div class="banner">You did it!</div>
+      <p>Wie heißt du?</p>
+      <input type="text" id="player-name"
+             placeholder="Dein Name"
+             style="padding:0.5em;width:80%;margin:1em 0;">
+             <br>
+      <div class="button-group">
+        <button id="submit-name" class="submit-button">Absenden</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-        <section>
+    <section>
+      <script>
            
-           <script>
-           
-                let categoryColors = ["#C77D0C", "#166DAC", "#2F632E", "#4B3E73"]; // Orange, Blau, Grün, Lila
-                let usedColors = {}; // Speichert die Farbe für jede Kategorie basierend auf der Reihenfolge der Entdeckung
-                let colorIndex = 0; // Zählt die gefundenen Gruppen
-                let selectedTiles = [];
-                let attempts = 0;
-                let attemptCounter = 0;
+        let categoryColors = ["#C77D0C", "#166DAC", "#2F632E", "#4B3E73"]; // Orange, Blau, Grün, Lila
+        let usedColors = {}; // Speichert die Farbe für jede Kategorie basierend auf der Reihenfolge der Entdeckung
+        let colorIndex = 0; // Zählt die gefundenen Gruppen
+        let selectedTiles = [];
+        let attempts = 0;
+        let attemptCounter = 0;
 
-                let timerInterval;
-                let startTime;
-
-                let completedGroups = 0;
-                let categories = {};
-        
-                const grid = document.getElementById("grid");
-                const attemptsCounter = document.getElementById("attempts");
-                const correctGroupsContainer = document.getElementById("correct-groups");
-                const endScreen = document.getElementById("end-screen");
+        let startTime;
+        let timerInterval;
                 
-                //Json-Datei ins Spiel starten
-                function startGame() {
-                    if (timerInterval); // alter Timer beenden
-                    attemptCounter = 0; // Versuchszähler zurücksetzen
-                    attemptsCounter.textContent = attemptCounter; // Anzeige aktualisieren
-
-
-                    updateHighscoreDisplay();
-                    startTimer();
+        let completedGroups = 0;
+        let categories = {};
         
-                    const selectedDifficulty = document.getElementById("difficulty").value;
+        const grid = document.getElementById("grid");
+        const attemptsCounter = document.getElementById("attempts");
+        const correctGroupsContainer = document.getElementById("correct-groups");
+        const endScreen = document.getElementById("end-screen");
+                
+          let currentDifficulty = "";
 
-                fetch('kategorien.json')
+            function celebrate() {
+              const colors = ['#C77D0C','#166DAC','#2F632E','#4B3E73','#FF69B4'];
+              for (let i = 0; i < 30; i++) {
+              const c = document.createElement('div');
+              c.classList.add('confetti');
+              c.style.left           = Math.random() * 100 + 'vw';
+              c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+              c.style.animationDelay = Math.random() * 0.5 + 's';
+              document.body.appendChild(c);
+              c.addEventListener('animationend', () => c.remove());
+              }
+            }
+
+            function resetGameState() {
+              // Timer stoppen
+              clearInterval(timerInterval);
+
+              // Spielvariablen zurücksetzen
+                selectedTiles    = [];
+                attemptCounter   = 0;
+                attemptsCounter.textContent = 0;
+                completedGroups  = 0;
+                usedColors       = {};
+                colorIndex       = 0;
+
+              // Spielfeld und gefundene Gruppen leeren
+                grid.innerHTML = "";
+                correctGroupsContainer.innerHTML = "";
+
+              // End-/Regel-Popups schließen, falls offen
+                document.querySelectorAll(".popup.show").forEach(popup => {
+                popup.classList.remove("show");
+                setTimeout(() => popup.classList.add("hidden"), 300);
+                });
+              }
+
+              //Json-Datei ins Spiel starten
+              function startGame() {
+                resetGameState();
+                  attemptCounter = 0; // Versuchszähler zurücksetzen
+                  attemptsCounter.textContent = attemptCounter; // Anzeige aktualisieren
+
+                  document.getElementById("highscore-list").style.display = "none";
+                  document.getElementById("home-screen").style.display = "none";
+                  document.getElementById("game-screen").style.display = "block";
+
+                  startTime = Date.now();
+                  startTimer();
+        
+                  const selectedDifficulty = document.getElementById("difficulty").value;
+                  currentDifficulty = selectedDifficulty;
+
+
+                  fetch('kategorien.json')
                     .then(response => response.json())
                     .then(data => {
-                        let gefilterteKategorien = data.Kategorien.filter(cat => cat.schwierigkeit === selectedDifficulty);
-                        gefilterteKategorien = gefilterteKategorien.sort(() => Math.random() - 0.5).slice(0, 4);
-                        initializeGame(gefilterteKategorien);
+                      let gefilterteKategorien = data.Kategorien.filter(cat => cat.schwierigkeit === selectedDifficulty);
+                      gefilterteKategorien = gefilterteKategorien.sort(() => Math.random() - 0.5).slice(0, 4);
+                      initializeGame(gefilterteKategorien);
                     })
                     .catch(error => console.error("Fehler beim Laden der JSON-Datei:", error));
-                }
+              }
 
-                function makeAttempt() {
-                    attemptCounter++;
-                    attemptsCounter.textContent = attemptCounter; // Anzeige aktualisieren
-                }
+              function startTimer() {
+                  timerInterval = setInterval(() => {
+                      const elapsed = Math.floor((Date.now() - startTime) / 1000); // ⏱️ Sekunden seit Start
+                      document.getElementById("timer").textContent = `Zeit: ${elapsed}s`; // ⌛ Update in HTML
+                  }, 1000); // Aktualisierung alle 1 Sekunde
+              }
 
-                function initializeGame(kategorien) {
-                    categories = {};
-                    kategorien.forEach(cat => { 
-                        categories[cat.name] = cat.begriffe; 
-                    });
+              function makeAttempt() {
+                  attemptCounter++;
+                  attemptsCounter.textContent = attemptCounter; // Anzeige aktualisieren
+              }
 
-                    createTiles(categories);
-                }
+              function initializeGame(kategorien) {
+                  categories = {};
+                  kategorien.forEach(cat => { 
+                      categories[cat.name] = cat.begriffe; 
+                  });
+
+                  createTiles(categories);
+              }
                 
-                function createTiles(categories) {
-                    grid.innerHTML = "";
-                    correctGroupsContainer.innerHTML = "";
+              function createTiles(categories) {
+                  grid.innerHTML = "";
+                  correctGroupsContainer.innerHTML = "";
                     
-                    let allWords = Object.values(categories).flat(); //Alle Begriffe in eine Liste packen
-                    allWords.sort(() => Math.random() - 0.5);
+                  let allWords = Object.values(categories).flat(); //Alle Begriffe in eine Liste packen
+                  allWords.sort(() => Math.random() - 0.5);
 
                     
-                    allWords.forEach(word => {
-                            const tile = document.createElement("div");
-                            tile.textContent = word;
-                            tile.classList.add("tile");
-                            tile.onclick = () => selectTile(tile);
-                            grid.appendChild(tile);
-                        });
-                }
+                  allWords.forEach(word => {
+                        const tile = document.createElement("div");
+                        tile.textContent = word;
+                        tile.classList.add("tile");
+                        tile.onclick = () => selectTile(tile);
+                        grid.appendChild(tile);
+                  });
+              }
                 
                 
-                
+              function selectTile(tile) {
+                  if (selectedTiles.includes(tile)) {
+                      selectedTiles = selectedTiles.filter(t => t !== tile);
+                      tile.classList.remove("selected");
+                  } else if (selectedTiles.length < 4) {
+                      selectedTiles.push(tile);
+                      tile.classList.add("selected");
+                  }
 
-                function selectTile(tile) {
-                    if (selectedTiles.includes(tile)) {
-                        selectedTiles = selectedTiles.filter(t => t !== tile);
-                        tile.classList.remove("selected");
-                    } else if (selectedTiles.length < 4) {
-                        selectedTiles.push(tile);
-                        tile.classList.add("selected");
-                    }
-
-                    if (selectedTiles.length === 4) checkSelection();
-                }
+                  if (selectedTiles.length === 4) checkSelection();
+              }
 
 
-                function checkSelection() {
-                    makeAttempt();
-                    let selectedWords = selectedTiles.map(tile => tile.textContent);
-                    let foundCategory = Object.entries(categories)
-                                        .find(([category, words]) =>  
-                                            words.every(word => selectedWords.includes(word))
-                                            && selectedWords.every(word => words.includes(word))
-                                        );
+              function checkSelection() {
+                  makeAttempt();
+                  let selectedWords = selectedTiles.map(tile => tile.textContent);
+                  let foundCategory = Object.entries(categories)
+                                      .find(([category, words]) =>  
+                                          words.every(word => selectedWords.includes(word))
+                                          && selectedWords.every(word => words.includes(word))
+                                      );
                                         
+                  if (foundCategory) {
+                      displayCorrectGroup(foundCategory[0], selectedWords);
+                      selectedTiles.forEach(tile => tile.remove());
+                      selectedTiles = [];
+                      completedGroups++;                            
+                      if (completedGroups === Object.keys(categories).length) {
+                          showEndScreen();
+                          }
+                  } else {
+                      selectedTiles.forEach(tile => tile.classList.add("wrong"));                            
+                      setTimeout(() => {
+                          selectedTiles.forEach(tile => tile.classList.remove("wrong", "selected"));
+                          selectedTiles = [];
+                          }, 300);
+                  }
+              }
 
-                    if (foundCategory) {
-                        displayCorrectGroup(foundCategory[0], selectedWords);
-                        selectedTiles.forEach(tile => tile.remove());
-                        selectedTiles = [];
-                        completedGroups++;                            
-                        if (completedGroups === Object.keys(categories).length) {
-                            showEndScreen();
-                            }
-                    } else {
-                        selectedTiles.forEach(tile => tile.classList.add("wrong"));                            
-                        setTimeout(() => {
-                            selectedTiles.forEach(tile => tile.classList.remove("wrong", "selected"));
-                            selectedTiles = [];
-                            }, 300);
-                    }
-                 }
+              function adjustSpacing() {
+                  correctGroupsContainer.style.marginBottom = "1%"; // Reduziert Abstand zu den verbleibenden Begriffen
+                  grid.style.marginTop = "1%"; // Lässt die verbleibenden Kacheln nach oben rutschen
+              }
 
-                function adjustSpacing() {
-                    correctGroupsContainer.style.marginBottom = "1%"; // Reduziert Abstand zu den verbleibenden Begriffen
-                    grid.style.marginTop = "1%"; // Lässt die verbleibenden Kacheln nach oben rutschen
+
+              function displayCorrectGroup(category, words) {
+                if (!usedColors[category]) {
+                usedColors[category] = categoryColors[colorIndex++];
                 }
 
+                const groupDiv = document.createElement("div");
+                groupDiv.classList.add("correct-group");
+                groupDiv.style.setProperty("--group-color", usedColors[category]);
 
-                function displayCorrectGroup(category, words) {
-                    if (!usedColors[category]) {
-                        usedColors[category] = categoryColors[colorIndex];
-                        colorIndex++;
-                    }
+                // 1) Titel oben
+                const title = document.createElement("h3");
+                title.textContent = category;
+                groupDiv.appendChild(title);
 
-                    const groupDiv = document.createElement("div");
-                    groupDiv.classList.add("correct-group");
-                    groupDiv.style.backgroundColor = usedColors[category];
+                // 2) Wrapper für die korrekten Kacheln
+                const tilesWrapper = document.createElement("div");
+                tilesWrapper.classList.add("correct-tiles");
+                groupDiv.appendChild(tilesWrapper);
 
-                    const title = document.createElement("h3");
-                    title.textContent = category;
-                    groupDiv.appendChild(title);
+                // 3) Kacheln ins Wrapper-Element
+                words.forEach(word => {
+                const tile = document.createElement("div");
+                tile.textContent = word;
+                tile.classList.add("tile", "correct");
+                tilesWrapper.appendChild(tile);
+                });
 
-                    words.forEach(word => {
-                        const wordDiv = document.createElement("div");
-                        wordDiv.textContent = word;
-                        wordDiv.classList.add("tile", "correct");
-                        wordDiv.style.backgroundColor = usedColors[category];
-                        groupDiv.appendChild(wordDiv);
-                    });
-
-                    correctGroupsContainer.prepend(groupDiv); // VERSCHIEBT die Kategorie nach OBEN
-
-                    adjustSpacing(); // Ruft Funktion auf, um Abstände anzupassen
-                }
-
-                
-
-                function showEndScreen() {
-                    clearInterval(timerInterval);
-
-                    
-                    const finalTime = Math.floor((new Date().getTime() - startTime) / 1000);
-                    
-                    updateTopScores(finalTime);
-                    displayTopScores();
-                    
-                    const bestTime = getBestTime();
-                    if (!bestTime || finalTime < bestTime) {
-                      setBestTime(finalTime);
-                        }
-                    const endMessage = document.createElement("div");
-                        endMessage.classList.add("end-screen", "end-message-style");
-                        document.body.appendChild(endMessage);
-                    
-
-                    const messageText = document.createElement("h2");
-                        messageText.textContent = "You did it!";
-                        messageText.style.color = "#FFD700"; // Goldene Schrift für bessere Sichtbarkeit
-                    
-                    const restartButton = document.createElement("button");
-                        restartButton.textContent = "Neues Spiel";
-                        restartButton.onclick = restartGame;
-                        restartButton.classList.add("restart-button");
-
-                        document.body.appendChild(restartButton);
-
-                    const backButton = document.createElement("button");
-                        backButton.textContent = "Zurück";
-                        backButton.onclick = goBack;
-                    
-
-                    // Elemente zur Endnachricht hinzufügen
-                    endMessage.appendChild(messageText);
-                    endMessage.appendChild(restartButton);
-                    endMessage.appendChild(backButton);
-
-                    correctGroupsContainer.appendChild(endMessage); // Fügt die Nachricht unterhalb der Kategorien ein
-                }
+                correctGroupsContainer.prepend(groupDiv);
+                adjustSpacing();
+              }
 
 
-                function restartGame() {
-                    window.location.reload();
-                    attempts = 0;
-                }
+              function showEndScreen() {
+                clearInterval(timerInterval);  
 
-                function goBack() {
-                    window.history.back();
-                }
+                const finalTime = Math.floor((Date.now() - startTime) / 1000);
+                const endPopup  = document.getElementById("end-popup");
+                endPopup.classList.remove("hidden");
+                endPopup.classList.add("show");
 
-            function startTimer(){
+                document.getElementById("submit-name").onclick = () => {
+                  const name = document.getElementById("player-name").value.trim();
+                  if (!name) return;
+                  updateHighscore(name, finalTime, currentDifficulty);
+                  displayHighscoreList();
+                  endPopup.classList.remove("show");
+                  setTimeout(() => endPopup.classList.add("hidden"), 300);
+
+                // zurück zum Home
+                document.getElementById("game-screen").style.display    = "none";
+                document.getElementById("home-screen").style.display    = "block";
+                document.getElementById("highscore-list").style.display = "block";
+                };
+              }
+
+
+
+              // Überschrift „You did it!“ erstellen
+              const messageText = document.createElement("h2");
+              messageText.textContent = "You did it!";
+              messageText.classList.add("banner"); // CSS-Klasse für Stil
+
+              // Button-Container erstellen
+              const buttonWrapper = document.createElement("div");
+              buttonWrapper.classList.add("button-group"); // CSS-Gruppe für Layout
+
+
+              // Endscreen-Container erstellen und befüllen
+              const endMessage = document.createElement("div");
+              endMessage.classList.add("end-screen", "end-message-style");
+
+              endMessage.appendChild(messageText);    // „You did it!“ hinzufügen
+              endMessage.appendChild(buttonWrapper);  // Button-Gruppe hinzufügen
+
+              // Endscreen direkt über den Kategorien anzeigen
+              document.getElementById("home-screen").style.display = "block";
+              document.getElementById("game-screen").style.display = "none";
+              document.getElementById("highscore-list").style.display = "block";
+
+
+              function startTimer(){
                 startTime = new Date().getTime();
                 timerInterval = setInterval(() => {
                 const now = new Date().getTime();
                 const elapsed = Math.floor((now - startTime) / 1000);
                 document.getElementById("timer").textContent = `Zeit: ${elapsed}s`;
-            }, 1000);
-}
+                }, 1000);
+              }
 
-    function getBestTime() {
-        const match = document.cookie.match(/highscore=(\d+)/);
-        return match ? parseInt(match[1]) : null;
-    }
+              function saveHighscoresToCookie(scoreList) {
+                const encoded = encodeURIComponent(JSON.stringify(scoreList));
+                document.cookie = `highscores=${encoded}; path=/; max-age=31536000`;
+              }
 
-    function setBestTime(seconds) {
-        document.cookie = `highscore=${seconds}; path=/; max-age=31536000`; // 1 Jahr
-    }
+              function getHighscoresFromCookie() {
+                const match = document.cookie.match(/highscores=([^;]+)/);
+                  if (match) {
+                  try {
+                  return JSON.parse(decodeURIComponent(match[1]));
+                  } catch {
+                  return [];
+                  }
+                  } 
+                return [];
+              }
 
-    function updateHighscoreDisplay() {
-        const hs = getBestTime();
-        document.getElementById("highscore").textContent = hs ? `Bestzeit: ${hs}s` : "Bestzeit: —";
-    }
-    function getTopScores() {
-        const stored = localStorage.getItem("topScores");
-        return stored ? JSON.parse(stored) : [];
-    }
+              function updateHighscore(name, time, difficulty) {
+                let scores = getHighscoresFromCookie();
+                scores.push({ name, time, difficulty });
+                scores = scores.sort((a, b) => a.time - b.time).slice(0, 5);
+                saveHighscoresToCookie(scores);
+              }
 
-    function saveTopScores(scores) {
-        localStorage.setItem("topScores", JSON.stringify(scores));
-    }
+              function displayHighscoreList() {
+                const scores = getHighscoresFromCookie();
+                const tbody  = document.getElementById("topScores");
+                tbody.innerHTML = "";
 
-    function updateTopScores(finalTime) {
-        let scores = getTopScores();
-        scores.push(finalTime);
-        scores.sort((a, b) => a - b);
-        scores = scores.slice(0, 5);
-        saveTopScores(scores);
-    }
+                if (!scores || scores.length === 0) {
+                  tbody.innerHTML = "<tr><td colspan='4'>—</td></tr>";
+                return;
+                }
 
-    function displayTopScores() {
-        const listElement = document.getElementById("topScores");
-        const scores = getTopScores();
-        listElement.innerHTML = "";
+                scores.forEach((entry, index) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                  <td>${index + 1}</td>
+                  <td>${entry.name}</td>
+                  <td>${entry.time}s</td>
+                  <td>${entry.difficulty}</td>
+                  `;
+                tbody.appendChild(tr);
+                });
+              }
 
-        if (scores.length === 0) {
-            listElement.innerHTML = "<li>—</li>";
-            return;
-        }
+              window.addEventListener("DOMContentLoaded", () => {
+              displayHighscoreList();
+              });
 
-        scores.forEach((time, index) => {
-            const li = document.createElement("li");
-            li.textContent = `${index + 1}. ${time}s`;
-            listElement.appendChild(li);
-        });
-    }
-        window.addEventListener("DOMContentLoaded", () => {
-            displayTopScores();
-        });
 
-            
+              // Hilfe-Icon: Spielregeln anzeigen
+              document.getElementById("help-icon").addEventListener("click", () => {
+              document.getElementById("rules-popup").classList.remove("hidden");
+              });
+
+
+              // ——— Spielregeln-Popup (Icon) ———
+              const helpIcon      = document.getElementById("help-icon");
+              const rulesPopup    = document.getElementById("rules-popup");
+              const closeRulesBtn = document.getElementById("close-popup");
+
+            helpIcon.addEventListener("click", () => {
+            rulesPopup.classList.remove("hidden");
+            rulesPopup.classList.add("show");
+            });
+
+            closeRulesBtn.addEventListener("click", () => {
+            rulesPopup.classList.remove("show");
+              setTimeout(() => rulesPopup.classList.add("hidden"), 300);
+            });
+
+            // ——— End-Screen-Popup nach Spielende ———
+          function showEndScreen() {
+            clearInterval(timerInterval);
+
+            // 1) Popup einblenden
+            const endPopup = document.getElementById("end-popup");
+            endPopup.classList.remove("hidden");
+            endPopup.classList.add("show");
+
+            // 2) Pop-Animation für das Banner (CSS-Animation antriggern)
+            const banner = endPopup.querySelector(".banner");
+            banner.style.animation = "pop 0.6s ease-out forwards";
+
+            // 3) Konfetti starten
+            celebrate();
+
+            // 4) Name-Submit-Handler
+            document.getElementById("submit-name").onclick = () => {
+              const name = document.getElementById("player-name").value.trim();
+            if (!name) return;
+              const finalTime = Math.floor((Date.now() - startTime) / 1000);
+            updateHighscore(name, finalTime, currentDifficulty);
+            displayHighscoreList();
+
+            // Popup wieder schließen
+            endPopup.classList.remove("show");
+            setTimeout(() => endPopup.classList.add("hidden"), 300);
+
+            // Zurück zum Home
+            document.getElementById("game-screen").style.display    = "none";
+            document.getElementById("home-screen").style.display    = "block";
+            document.getElementById("highscore-list").style.display = "block";
+            };
+          }
+
+          // „Zurück“-Icon: zurück zum Home-Screen
+            const backIcon = document.getElementById("back-icon");
+            backIcon.addEventListener("click", () => {
+              resetGameState();
+            document.getElementById("game-screen").style.display      = "none";
+            document.getElementById("home-screen").style.display      = "block";
+            document.getElementById("highscore-list").style.display   = "block";
+            });
+
             </script>
        
         </section>
 
-         
-
     </article>
-
-    
-
- 
-
-    
+   
 
     <!--Artikel und Section ist für Screenreader wichtig-->
-    <!--!Hier ist ein Fehler-->
     
 </body>
 
