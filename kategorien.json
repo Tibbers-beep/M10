@@ -80,7 +80,7 @@
         { "name": "Charaktere aus The Big Bang Theory ", "schwierigkeit": "schwer", "begriffe": ["Sheldon", "Stuart", "Amy", "Howard"] },
         { "name": "Dinge in schwarz-weiß", "schwierigkeit": "schwer", "begriffe": ["Panda", "Schachbrett", "Oreo", "Barcode"] },
         { "name": "Bestandteile eines Buches", "schwierigkeit": "schwer", "begriffe": ["Kopfsteg", "Satzspiegel", "Einband", "Buchschnitt"] },
-        { "name": "Opernstücke", "schwierigkeit": "schwer", "begriffe": ["Xerxes", "La traviata", "Carmen", "Tosca"] }
+        { "name": "Opernstücke", "schwierigkeit": "schwer", "begriffe": ["Xerxes", "La traviata", "Carmen", "Tosca"] },
 
 
         { "name": "_(s)sprache", "schwierigkeit": "experte", "begriffe": ["Fremd", "Umgang", "Mutter", "Alltag"] },
@@ -108,4 +108,5 @@
         { "name": "Währungen", "schwierigkeit": "experte", "begriffe": ["Lew", "Lari", "Yen", "Riel"] },
         { "name": "-ameisen", "schwierigkeit": "experte", "begriffe": ["Feuer", "Haus", "Pharao", "Treiber"] },
         { "name": "Anagramme", "schwierigkeit": "experte", "begriffe": ["Palme", "Bier", "Angel", "Tor"] }
+
 
