@@ -93,7 +93,7 @@
         { "name": "-phobie", "schwierigkeit": "experte", "begriffe": ["Papa", "Anatidae", "Arachibutyro", "Nomo"] },
         { "name": "Dinge, die immer verloren gehen", "schwierigkeit": "experte", "begriffe": ["Socken", "Haarspangen", "Ladekabel", "Fernbedinung"] },
         { "name": "Bewusstseins_", "schwierigkeit": "experte", "begriffe": ["Forschung", "Zutand", "Ebene", "Inhalt"] },
-        { "name": "_ Bridge", "experte": "mittel", "begriffe": ["Golden Gate", "Tower", "Brooklyn", "Sidney Harbour"] },
+        { "name": "_ Bridge", "Schwierigket": "experte", "begriffe": ["Golden Gate", "Tower", "Brooklyn", "Sidney Harbour"] },
         { "name": "Literarische Detektive", "schwierigkeit": "experte", "begriffe": ["Holmes", "Marple", "Poirot", "Marlowe"] },
         { "name": "-system ", "schwierigkeit": "experte", "begriffe": ["Immun", "Computer", "Justiz", "Öko"] },
         { "name": "Palindrome", "schwierigkeit": "experte", "begriffe": ["Ebbe", "Radar", "Neffen", "Reittier"] },
@@ -108,5 +108,6 @@
         { "name": "Währungen", "schwierigkeit": "experte", "begriffe": ["Lew", "Lari", "Yen", "Riel"] },
         { "name": "-ameisen", "schwierigkeit": "experte", "begriffe": ["Feuer", "Haus", "Pharao", "Treiber"] },
         { "name": "Anagramme", "schwierigkeit": "experte", "begriffe": ["Palme", "Bier", "Angel", "Tor"] }
+
 
 
