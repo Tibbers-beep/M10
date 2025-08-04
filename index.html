@@ -5,7 +5,7 @@
     <meta name="Autoren" content="Baron, Trejtnar">
     <meta 
       name="description"
-      content="Kategorien-Spiel – ein interaktives Kombinationsspiel, empfohlen ab dem 25.07.2025. Finde Gruppen von Begriffen, verbessere deinen Highscore und knobele dich durch verschiedene Schwierigkeitsgrade. Optimal spielbar ab 480px Bildschirmbreite."
+      content="Kategorien-Spiel – ein interaktives Kombinationsspiel, spielbar ab dem 25.07.2025. Finde Gruppen von Begriffen, verbessere deinen Highscore und knobele dich durch verschiedene Schwierigkeitsgrade. Optimal spielbar ab 480px Bildschirmbreite."
       />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategorien-Spiel</title>
@@ -330,7 +330,7 @@
         }
         }       
 
-        /* Regel-Popup Overlay */
+         /* Regel-Popup Overlay */
         .popup {
           position: fixed;
           top: 0;
@@ -344,6 +344,10 @@
           padding: clamp(1em, 4vw, 2em); 
           z-index: 9999;
           box-sizing: border-box;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+          border-radius: 8px;
         }
 
         .popup-content {
@@ -352,47 +356,19 @@
           padding: 1.5em;
           border-radius: 8px;
           border: 2px solid #29f8f5;
-          width: 80%;
-          height: 55%;
-          font-size: calc(1vw + 10px);
+          width: min(90%, 400px);
+          font-size: clamp(1rem, 2.5vw, 1.3rem);
           text-align: center;
           box-shadow: 0 0 12px rgba(0,0,0,0.5);
           box-sizing: border-box;
-        }
-
-        #close-popup {
-          width: clamp(120px, 20vw, 200px); /* Dynamische Breite */
-          height: clamp(40px, 6vh, 60px);   /* Dynamische Höhe */
-          font-size: clamp(0.9rem, 2vw, 1.1rem); 
-          padding: 0.5em 1em;               /* Zusätzlicher Innenabstand */
-
-          background-color: #444;
-          color: #fff;
-          border: 2px solid #898c90;
-          border-radius: 0.5em;
-          cursor: pointer;
-        }
-
-        #close-popup:hover {
-          background-color: #666;
-          transform: scale(1.03);
-        }
-
-        #close-popup:focus {
-          outline: 3px solid #29f8f5;
-          outline-offset: 2px;
         }
 
 
         .hidden {
           display: none;
         }
-        /* Popup-Grundzustand */
-        .popup {
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s ease;
-        }
+        
+        
 
         /* Wenn eingeblendet */
         .popup.show {
@@ -884,16 +860,6 @@
               document.getElementById("home-screen").style.display = "block";
               document.getElementById("game-screen").style.display = "none";
               document.getElementById("highscore-list").style.display = "block";
-
-
-              function startTimer(){
-                startTime = new Date().getTime();
-                timerInterval = setInterval(() => {
-                const now = new Date().getTime();
-                const elapsed = Math.floor((now - startTime) / 1000);
-                document.getElementById("timer").textContent = `Zeit: ${elapsed}s`;
-                }, 1000);
-              }
 
               function saveHighscoresToCookie(scoreList) {
                 const encoded = encodeURIComponent(JSON.stringify(scoreList));
